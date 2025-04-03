@@ -14,7 +14,22 @@ class Olist:
             # Use __file__ instead as an absolute path anchor independant of your usename
             # Make extensive use of `breakpoint()` to investigate what `__file__` variable is really
         # Hint 2: Use os.path library to construct path independent of Mac vs. Unix vs. Windows specificities
-        pass  # YOUR CODE HERE
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        csv_path = os.path.join(script_dir, '..', 'data', 'csv')
+
+        file_names = os.listdir(csv_path)
+        file_names.remove(".keep")
+
+        key_names = [file_name.replace("_dataset.csv","").replace("olist_","").replace(".csv","")
+             for file_name in file_names]
+
+        data = {}
+
+        for (x, y) in zip(key_names, file_names):
+            data[x] = pd.read_csv(os.path.join(csv_path, y))
+
+        return data
+
 
     def ping(self):
         """
